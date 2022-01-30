@@ -10,10 +10,9 @@ const getRandomCoordinates = () => {
   return [x,y]
 }
 
-let message = 'henlo';
-
 const initialState = {
-  isPaused: false,
+  username: 'Set Username',
+  isPaused: true,
   food: getRandomCoordinates(),
   speed: 100,
   direction: 'RIGHT',
@@ -25,10 +24,17 @@ const initialState = {
 
 class App extends Component {
   state = initialState;
+
   setOnPause() {
     this.setState({
-      isPaused: !this.state.isPaused
+      isPaused: !this.state.isPaused,
     })
+  }
+
+  inputName() {
+    const promptValue = prompt('Enter username');
+    if (!promptValue) return;
+    this.setState({username: promptValue});
   }
 
   componentDidMount() {
@@ -138,7 +144,7 @@ class App extends Component {
   }
 
   onGameOver() {
-    this.message = `Last Snake length is ${this.state.snakeDots.length}`
+    this.setOnPause();
     this.setState(initialState)
   }
 
@@ -150,11 +156,20 @@ class App extends Component {
           <Food dot={this.state.food}/>
         </div>
         <div className="message">
-          {this.state.snakeDots.length}
+        <button
+          className='onPause'
+          onClick={() => this.setOnPause()}>
+            PLAY / PAUSE
+          </button>
           <br/>
-          {this.message}
+          <button
+            className='inputName'
+            onClick={() => this.inputName(this.promptValue)}>
+              {this.state.username}
+          </button>
+          <br/>
+          Snake length: {this.state.snakeDots.length}
         </div>
-        <button onClick={() => this.setOnPause()}>PAUSE</button>
       </div>
     );
   }
