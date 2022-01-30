@@ -6,13 +6,16 @@ const getRandomCoordinates = () => {
   let min = 1;
   let max = 98;
   let x = Math.floor((Math.random()*(max-min+1)+min)/2)*2;
-  let y =  Math.floor((Math.random()*(max-min+1)+min)/2)*2;
+  let y = Math.floor((Math.random()*(max-min+1)+min)/2)*2;
   return [x,y]
 }
 
+let message = 'henlo';
+
 const initialState = {
+  isPaused: false,
   food: getRandomCoordinates(),
-  speed: 200,
+  speed: 100,
   direction: 'RIGHT',
   snakeDots: [
     [0,0],
@@ -21,23 +24,31 @@ const initialState = {
 }
 
 class App extends Component {
-
   state = initialState;
+  setOnPause() {
+    this.setState({
+      isPaused: !this.state.isPaused
+    })
+  }
 
   componentDidMount() {
     setInterval(this.moveSnake, this.state.speed);
     document.onkeydown = this.onKeyDown;
   }
-
+  
   componentDidUpdate() {
-    this.checkIfOutOfBorders();
-    this.checkIfCollapsed();
-    this.checkIfEat();
+      this.checkIfOutOfBorders();
+      this.checkIfCollapsed();
+      this.checkIfEat();
+    
   }
 
   onKeyDown = (e) => {
     e = e || window.event;
     switch (e.keyCode) {
+      case 27:
+        this.setOnPause();
+        break;
       case 38:
         this.setState({direction: 'UP'});
         break;
@@ -54,6 +65,7 @@ class App extends Component {
   }
 
   moveSnake = () => {
+    if (!this.state.isPaused) {
     let dots = [...this.state.snakeDots];
     let head = dots[dots.length - 1];
 
@@ -69,13 +81,14 @@ class App extends Component {
         break;
       case 'UP':
         head = [head[0], head[1] - 2];
-        break;
+        break; 
     }
     dots.push(head);
     dots.shift();
     this.setState({
       snakeDots: dots
     })
+  }
   }
 
   checkIfOutOfBorders() {
@@ -125,15 +138,23 @@ class App extends Component {
   }
 
   onGameOver() {
-    alert(`Game Over. Snake length is ${this.state.snakeDots.length}`);
+    this.message = `Last Snake length is ${this.state.snakeDots.length}`
     this.setState(initialState)
   }
 
   render() {
     return (
-      <div className="game-area">
-        <Snake snakeDots={this.state.snakeDots}/>
-        <Food dot={this.state.food}/>
+      <div>
+        <div className="game-area">
+          <Snake snakeDots={this.state.snakeDots}/>
+          <Food dot={this.state.food}/>
+        </div>
+        <div className="message">
+          {this.state.snakeDots.length}
+          <br/>
+          {this.message}
+        </div>
+        <button onClick={() => this.setOnPause()}>PAUSE</button>
       </div>
     );
   }
