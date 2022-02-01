@@ -11,7 +11,7 @@ const getRandomCoordinates = () => {
 }
 
 const initialState = {
-  username: 'Set Username',
+  username: '',
   isPaused: true,
   food: getRandomCoordinates(),
   speed: 100,
@@ -150,25 +150,29 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <div className="game-area">
+      <div className='wrapper'>
+        <div className="gameArea">
           <Snake snakeDots={this.state.snakeDots}/>
           <Food dot={this.state.food}/>
         </div>
         <div className="message">
-        <button
-          className='onPause'
-          onClick={() => this.setOnPause()}>
-            PLAY / PAUSE
+          <button
+            className="playPause"
+            onClick={() => this.setOnPause()}>
+              PLAY / PAUSE
           </button>
           <br/>
           <button
-            className='inputName'
+            className="setUser"
             onClick={() => this.inputName(this.promptValue)}>
-              {this.state.username}
+              Set User
           </button>
-          <br/>
-          Snake length: {this.state.snakeDots.length}
+          <div id="scoreCount">
+          Score: {this.state.snakeDots.length - 2}
+          </div>
+          <div id="userName">
+          User: {this.state.username}
+          </div>
         </div>
       </div>
     );
