@@ -157,22 +157,22 @@ class App extends Component {
         </div>
         <div className="message">
           <button
-            className="playPause"
+            id="playPause"
             onClick={() => this.setOnPause()}>
               PLAY / PAUSE
           </button>
           <br/>
           <button
-            className="setUser"
+            id="setUser"
             onClick={() => this.inputName(this.promptValue)}>
               Set User
           </button>
-          <div id="scoreCount">
-          Score: {this.state.snakeDots.length - 2}
-          </div>
-          <div id="userName">
-          User: {this.state.username}
-          </div>
+          <p id="userName">
+            User: {this.state.username}
+          </p>
+          <p id="scoreCount">
+            Score: {this.state.snakeDots.length - 2}
+          </p>
         </div>
       </div>
     );
