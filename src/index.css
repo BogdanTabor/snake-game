@@ -7,7 +7,6 @@
   border: 1px solid #fff;
   z-index: 2;
 }
-
 .snake-food {
   position: absolute;
   width: 2%;
@@ -17,17 +16,27 @@
   z-index: 1;
 }
 
-.message {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
+.wrapper {
+  text-align:center;
+  position:relative;}
 
 .gameArea {
+  display:inline-block;
   position: relative;
   margin: 50px auto;
   width: 600px;
   height: 600px;
   border: 2px solid #000;
+}
+
+.leaderBoard {
+  position:absolute;
+  left:0;
+}
+
+.message {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
